@@ -40,13 +40,13 @@ pipeline {
         //     }
         // }
         
-        // // stage('Push Docker Image to Docker Hub') {
-        //     steps {
-        //         sh '''
-        //         docker push $DOCKERHUB_USERNAME/$DOCKERHUB_REPO:$IMAGE_TAG
-        //         '''
-        //     }
-        // }
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                sh '''
+                docker push $DOCKERHUB_PASSWORD_USR/$DOCKERHUB_REPO:$IMAGE_TAG
+                '''
+            }
+        }
 
     }
 }
