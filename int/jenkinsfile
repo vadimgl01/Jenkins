@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USERNAME = 'vadimgl011'
-        DOCKERHUB_PASSWORD = credentials("docker")
+        DOCKERHUB_PASSWORD = credentials(docker)
         DOCKERHUB_REPO = 'example'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
