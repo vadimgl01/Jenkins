@@ -44,7 +44,7 @@ pipeline {
         stage('Push Docker Image to Docker Hub') {
             steps {
                 sh '''
-                docker push $DOCKERHUB_PASSWORD_USR/$DOCKERHUB_REPO:$IMAGE_TAG
+                 docker push $DOCKERHUB_PASSWORD_USR/$DOCKERHUB_REPO:$IMAGE_TAG
                 '''
             }
         }
