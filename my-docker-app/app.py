@@ -1,1 +1,1 @@
-print("Hello from CI-built Docker container!!")
+print("Vadim,Hello from CI-built Docker container!!")
