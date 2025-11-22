@@ -1,3 +1,53 @@
-# The pipline should be: 
-- Triggered by Push to github main branch.
-- Build and Push your image to your registry.
+pipeline {
+    agent any
+
+    environment {
+        //DOCKERHUB_USERNAME = 'vadimgl011'
+        DOCKERHUB_PASSWORD = credentials('docker')
+        DOCKERHUB_REPO = 'example'
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                cd int
+                docker build -t $DOCKERHUB_PASSWORD_USR/$DOCKERHUB_REPO:$IMAGE_TAG .
+                '''
+            }
+        }
+        
+         stage('Login to Docker Hub') {
+             steps {
+                 sh('echo "$DOCKERHUB_PASSWORD_PSW" | docker login -u "$DOCKERHUB_PASSWORD_USR" --password-stdin')
+             }
+         }   
+        
+        // stage('Login to Docker Hub') {
+        //     steps {
+        //         withCredentials([usernamePassword(
+        //             credentialsId: 'docker',
+        //             usernameVariable: 'DOCKERHUB_USERNAME',
+        //             passwordVariable: 'DOCKERHUB_PASSWORD'
+        //         )]) {
+        //             sh '''
+        //             echo "Logging in as $DOCKERHUB_USERNAME"
+        //             echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+        //             '''
+        //         }
+        //     }
+        // }
+        //
+        
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                sh '''
+                docker push $DOCKERHUB_PASSWORD_USR/$DOCKERHUB_REPO:$IMAGE_TAG
+                '''
+            }
+        }
+
+    }
+}
